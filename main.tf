@@ -49,6 +49,16 @@ data "aws_iam_policy_document" "base" {
       "arn:*:secretsmanager:*:*:secret:lambda/${var.stage}/${var.repository_name}*",
     ]
   }
+
+  statement {
+    actions = [
+      "sns:Publish",
+    ]
+
+    resources = [
+      "arn:*:sns:*:*:${var.stage}-*",
+    ]
+  }
 }
 
 resource "aws_iam_role" "role" {
