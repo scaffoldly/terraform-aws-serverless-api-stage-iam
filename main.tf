@@ -63,6 +63,7 @@ data "aws_iam_policy_document" "base" {
 
 resource "aws_iam_role" "role" {
   name = "${var.repository_name}-${var.stage}"
+  tags = {}
 
   assume_role_policy = <<EOF
 {
@@ -79,6 +80,12 @@ resource "aws_iam_role" "role" {
   ]
 }
 EOF
+
+  lifecycle {
+    ignore_changes = [
+      inline_policy
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "base" {
