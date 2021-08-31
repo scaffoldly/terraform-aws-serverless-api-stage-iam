@@ -81,15 +81,9 @@ resource "aws_iam_role" "role" {
 }
 EOF
 
-  lifecycle {
-    ignore_changes = [
-      inline_policy
-    ]
+  inline_policy {
+    name   = "base-policy"
+    policy = data.aws_iam_policy_document.base.json
   }
 }
 
-resource "aws_iam_role_policy" "base" {
-  name   = "base"
-  role   = aws_iam_role.role.name
-  policy = data.aws_iam_policy_document.base.json
-}
