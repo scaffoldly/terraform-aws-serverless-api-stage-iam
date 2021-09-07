@@ -59,6 +59,25 @@ data "aws_iam_policy_document" "base" {
       "arn:*:sns:*:*:${var.stage}-*",
     ]
   }
+
+  statement {
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+    ]
+
+    condition {
+      test     = "StringLike"
+      variable = "kms:RequestAlias"
+      values = [
+        "alias/${var.stage}*"
+      ]
+    }
+
+    resources = [
+      "*",
+    ]
+  }
 }
 
 resource "aws_iam_role" "role" {
