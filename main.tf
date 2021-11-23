@@ -59,6 +59,16 @@ data "aws_iam_policy_document" "base" {
       "arn:*:sns:*:*:${var.stage}-*",
     ]
   }
+
+  statement {
+    actions = [
+      "execute-api:ManageConnections",
+    ]
+
+    resources = [
+      "arn:*:execute-api:*:*:*/${var.stage}/*",
+    ]
+  }
 }
 
 resource "aws_iam_role" "role" {
