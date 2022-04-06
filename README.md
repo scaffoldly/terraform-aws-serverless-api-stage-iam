@@ -49,6 +49,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The KMS Key Id for the stage (optional) | `string` | `""` | no |
 | <a name="input_repository_name"></a> [repository\_name](#input\_repository\_name) | The repository name for the Serverless API (permissions are prefixed with this for service-level isololation of privileges) | `string` | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | The stage (e.g. live, nonlive) | `string` | n/a | yes |
 
