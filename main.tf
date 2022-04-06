@@ -3,6 +3,10 @@ data "aws_iam_policy_document" "base" {
 
   statement {
     actions = [
+      "kms:DescribeCustomKeyStores",
+      "kms:ListKeys",
+      "kms:GenerateRandom",
+      "kms:ListAliases",
       "logs:PutLogEvents",
       "logs:CreateLogStream",
       "logs:CreateLogGroup",
@@ -68,6 +72,26 @@ data "aws_iam_policy_document" "base" {
     resources = [
       "arn:*:execute-api:*:*:*/${var.stage}/*",
     ]
+  }
+
+  dynamic "statement" {
+    for_each = var.kms_key_id == "" ? [] : [1]
+    content {
+      actions = [
+        "kms:Describe*",
+        "kms:Get*",
+        "kms:List*",
+        "kms:Decrypt",
+        "kms:*Encrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Verify",
+        "kms:Sign"
+      ]
+
+      resources = [
+        var.kms_key_id,
+      ]
+    }
   }
 }
 
