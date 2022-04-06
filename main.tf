@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "base" {
       ]
 
       resources = [
-        var.kms_key_id,
+        "arn:*:kms:*:*:key/${var.kms_key_id}",
       ]
     }
   }
