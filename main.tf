@@ -74,6 +74,17 @@ data "aws_iam_policy_document" "base" {
     ]
   }
 
+  statement {
+    actions = [
+      "lambda:InvokeFunction",
+      "lambda:InvokeAsync"
+    ]
+
+    resources = [
+      "arn:*:lambda:*:*:function:*-nonlive-*"
+    ]
+  }
+
   dynamic "statement" {
     for_each = var.kms_key_id == "" ? [] : [1]
     content {
