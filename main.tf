@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "trust" {
   }
 
   dynamic "statement" {
-    for_each = var.saml_trust ? [1] : []
+    for_each = var.saml_trust != null ? [1] : []
     content {
       actions = var.saml_trust.trust_actions
       effect  = "Allow"
