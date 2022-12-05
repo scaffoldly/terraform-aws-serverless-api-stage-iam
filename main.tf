@@ -106,25 +106,42 @@ data "aws_iam_policy_document" "base" {
   }
 }
 
+data "aws_iam_policy_document" "trust" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      identifiers = ["lambda.amazonaws.com"]
+      type        = "Service"
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.saml_trust ? [1] : []
+    content {
+      actions = var.saml_trust.trust_actions
+      effect  = "Allow"
+
+      principals {
+        identifiers = var.saml_trust.trust_principal_identifiers
+        type        = var.saml_trust.trust_principal_type
+      }
+
+      condition {
+        test     = var.saml_trust.trust_condition_saml_test
+        variable = var.saml_trust.trust_condition_saml_variable
+        values   = var.saml_trust.trust_condition_saml_values
+      }
+    }
+  }
+}
+
 resource "aws_iam_role" "role" {
   name = "${var.repository_name}-${var.stage}"
   tags = {}
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
+  assume_role_policy = data.aws_iam_policy_document.trust.json
 
   inline_policy {
     name   = "base-policy"
