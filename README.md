@@ -52,7 +52,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The KMS Key Id for the stage (optional) | `string` | `""` | no |
 | <a name="input_repository_name"></a> [repository\_name](#input\_repository\_name) | The repository name for the Serverless API (permissions are prefixed with this for service-level isololation of privileges) | `string` | n/a | yes |
-| <a name="input_saml_trust"></a> [saml\_trust](#input\_saml\_trust) | Output of trust from saml-to/iam/aws module | <pre>map(<br>    object({<br>      trust_actions                 = list(string)<br>      trust_principal_identifiers   = list(string)<br>      trust_principal_type          = string<br>      trust_condition_saml_test     = string<br>      trust_condition_saml_variable = string<br>      trust_condition_saml_values   = list(string)<br>    })<br>  )</pre> | `null` | no |
+| <a name="input_saml_trust"></a> [saml\_trust](#input\_saml\_trust) | Output of trust from saml-to/iam/aws module | <pre>object({<br>    trust_actions                 = list(string)<br>    trust_principal_identifiers   = list(string)<br>    trust_principal_type          = string<br>    trust_condition_saml_test     = string<br>    trust_condition_saml_variable = string<br>    trust_condition_saml_values   = list(string)<br>    }<br>  )</pre> | `null` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | The stage (e.g. live, nonlive) | `string` | n/a | yes |
 
 ## Outputs
