@@ -142,10 +142,11 @@ resource "aws_iam_role" "role" {
   tags = {}
 
   assume_role_policy = data.aws_iam_policy_document.trust.json
-
-  inline_policy {
-    name   = "base-policy"
-    policy = data.aws_iam_policy_document.base.json
-  }
 }
 
+resource "aws_iam_role_policy" "base" {
+  name = "base-policy"
+  role = aws_iam_role.role.id
+
+  policy = data.aws_iam_policy_document.base.json
+}
