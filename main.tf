@@ -45,6 +45,20 @@ data "aws_iam_policy_document" "base" {
 
   statement {
     actions = [
+      "kinesis:GetRecords",
+      "kinesis:GetShardIterator",
+      "kinesis:DescribeStream*",
+      "kinesis:ListShards",
+      "kinesis:ListStreams",
+    ]
+
+    resources = [
+      "arn:*:kinesis:*:*:stream/${var.stage}-${var.repository_name}*"
+    ]
+  }
+
+  statement {
+    actions = [
       "secretsmanager:GetSecretValue",
       "secretsmanager:PutSecretValue",
     ]
