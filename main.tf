@@ -50,6 +50,7 @@ data "aws_iam_policy_document" "base" {
       "kinesis:DescribeStream*",
       "kinesis:ListShards",
       "kinesis:ListStreams",
+      "kinesis:PutRecord*",
     ]
 
     resources = [
@@ -120,14 +121,26 @@ data "aws_iam_policy_document" "base" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "trust" {
   statement {
     actions = ["sts:AssumeRole"]
     effect  = "Allow"
 
     principals {
-      identifiers = ["lambda.amazonaws.com"]
-      type        = "Service"
+      identifiers = [
+        "lambda.amazonaws.com",
+        "logs.amazonaws.com",
+      ]
+
+      type = "Service"
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
     }
   }
 
